@@ -1,5 +1,4 @@
 import { notFound } from 'next/navigation';
-import { NextSeo } from 'next-seo';
 import Image from 'next/image';
 import { getPostBySlug, getAllSlugs } from '@/lib/contentful';
 import { Header } from '@/components/Header';
@@ -51,32 +50,6 @@ export default async function PostPage({ params }: PostPageProps) {
 
   return (
     <div className="min-h-screen bg-background">
-      <NextSeo
-        title={post.title}
-        description={post.excerpt}
-        canonical={`https://ai-music-blog.vercel.app/${slug}`}
-        openGraph={{
-          title: post.title,
-          description: post.excerpt,
-          url: `https://ai-music-blog.vercel.app/${slug}`,
-          type: 'article',
-          article: {
-            publishedTime: post.date,
-            modifiedTime: post.updatedAt,
-            tags: post.tags,
-          },
-          images: post.coverImage
-            ? [
-                {
-                  url: post.coverImage,
-                  width: 1200,
-                  height: 630,
-                  alt: post.title,
-                },
-              ]
-            : undefined,
-        }}
-      />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

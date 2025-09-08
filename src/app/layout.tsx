@@ -1,8 +1,6 @@
 import type { Metadata } from 'next';
 import { Inter, Roboto_Mono } from 'next/font/google';
-import { DefaultSeo } from 'next-seo';
 import Script from 'next/script';
-import SEO from '../../next-seo.config';
 import './globals.css';
 
 const inter = Inter({
@@ -33,7 +31,6 @@ export default function RootLayout({
       <body
         className={`${inter.variable} ${robotoMono.variable} bg-background text-foreground antialiased`}
       >
-        <DefaultSeo {...SEO} />
         {children}
         {process.env.NEXT_PUBLIC_GA_ID && (
           <>
