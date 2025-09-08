@@ -1,36 +1,235 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# AI Music Generation Blog
 
-## Getting Started
+A modern, high-performance blog focused on AI-generated music with dark-mode-first design, neon-glow accents, and smooth animations.
 
-First, run the development server:
+## 🚀 Features
+
+- **Dark-mode-first design** with neon glow accents evoking soundwaves
+- **Hero section** with muted looping AI-generated music video
+- **Fast, SEO-optimized** content delivery via Next.js, Tailwind CSS, and Contentful
+- **Smooth animations** with Framer Motion for page transitions and interactive waveforms
+- **Full SEO support** using next-seo, structured JSON-LD, sitemap.xml, and robots.txt
+- **Monetization ready** with affiliate link tracking and Google Analytics 4
+- **Interactive audio waveform** previews for music posts
+- **Responsive design** optimized for all devices
+
+## 🛠️ Tech Stack
+
+- **Framework**: Next.js 15 with TypeScript
+- **Styling**: Tailwind CSS v4 with JIT compilation
+- **Animations**: Framer Motion v12
+- **CMS**: Contentful
+- **SEO**: next-seo, next-sitemap
+- **Analytics**: Google Analytics 4
+- **Deployment**: Vercel
+- **CI/CD**: GitHub Actions
+
+## 📦 Installation
+
+1. **Clone the repository**
+
+   ```bash
+   git clone <your-repo-url>
+   cd ai-music-blog
+   ```
+
+2. **Install dependencies**
+
+   ```bash
+   npm install
+   ```
+
+3. **Set up environment variables**
+
+   ```bash
+   cp .env.local.example .env.local
+   ```
+
+   Fill in your environment variables:
+
+   ```env
+   CONTENTFUL_SPACE_ID=your_contentful_space_id
+   CONTENTFUL_ACCESS_TOKEN=your_contentful_access_token
+   NEXT_PUBLIC_GA_ID=G-XXXXXXXXXX
+   NEXT_PUBLIC_SITE_URL=https://your-domain.com
+   ```
+
+4. **Run the development server**
+   ```bash
+   npm run dev
+   ```
+
+Open [http://localhost:3000](http://localhost:3000) to view the application.
+
+## 🎨 Contentful Setup
+
+### Content Model: Post
+
+Create a "Post" content type in Contentful with the following fields:
+
+| Field Name    | Field ID       | Type              | Required | Description             |
+| ------------- | -------------- | ----------------- | -------- | ----------------------- |
+| Title         | `title`        | Short Text        | Yes      | Post title              |
+| Slug          | `slug`         | Short Text        | Yes      | URL slug                |
+| Date          | `date`         | Date & Time       | Yes      | Publication date        |
+| Cover Image   | `coverImage`   | Media             | No       | Featured image          |
+| Excerpt       | `excerpt`      | Long Text         | Yes      | Post summary            |
+| Body          | `body`         | Rich Text         | Yes      | Post content            |
+| Audio Preview | `audioPreview` | Media             | No       | Audio file for waveform |
+| Tags          | `tags`         | Short Text (List) | No       | Post tags               |
+
+### Content Model Configuration
+
+1. In Contentful, go to Content model
+2. Create a new content type called "Post"
+3. Add all the fields listed above
+4. Configure field validations as needed
+5. Publish the content model
+
+## 🚀 Deployment
+
+### Vercel Deployment
+
+1. **Connect your GitHub repository to Vercel**
+2. **Set up environment variables in Vercel dashboard**:
+   - `CONTENTFUL_SPACE_ID`
+   - `CONTENTFUL_ACCESS_TOKEN`
+   - `NEXT_PUBLIC_GA_ID`
+   - `NEXT_PUBLIC_SITE_URL`
+   - `VERCEL_TOKEN` (for GitHub Actions)
+   - `VERCEL_ORG_ID` (for GitHub Actions)
+   - `VERCEL_PROJECT_ID` (for GitHub Actions)
+
+3. **Deploy**: Push to main branch triggers automatic deployment
+
+### Manual Deployment
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm run build
+npm start
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 📝 Scripts
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- `npm run dev` - Start development server
+- `npm run build` - Build for production
+- `npm run start` - Start production server
+- `npm run lint` - Run ESLint
+- `npm run lint:fix` - Fix ESLint issues
+- `npm run format` - Format code with Prettier
+- `npm run type-check` - Run TypeScript type checking
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🎵 Audio Features
 
-## Learn More
+The blog supports interactive audio waveform players for music posts. Upload audio files to Contentful and link them to posts via the "Audio Preview" field. The waveform player will:
 
-To learn more about Next.js, take a look at the following resources:
+- Display an animated SVG waveform
+- Allow click-to-seek functionality
+- Show play/pause controls
+- Display current time and duration
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🔧 Customization
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Colors
 
-## Deploy on Vercel
+Edit `tailwind.config.ts` to customize the color palette:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```typescript
+colors: {
+  primary: '#1F2937',    // Dark gray
+  accent: '#6366F1',     // Indigo
+  highlight: '#10B981',  // Emerald
+}
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Fonts
+
+The project uses:
+
+- **Roboto Mono** for headings
+- **Inter** for body text
+
+Modify `src/app/globals.css` to change fonts.
+
+### Animations
+
+Customize Framer Motion animations in components or add new ones in `tailwind.config.ts`:
+
+```typescript
+animation: {
+  'glow': 'glow 2s ease-in-out infinite alternate',
+  'wave': 'wave 3s ease-in-out infinite',
+}
+```
+
+## 📊 Analytics & Monetization
+
+### Google Analytics 4
+
+Set `NEXT_PUBLIC_GA_ID` in your environment variables. The tracking code is automatically included.
+
+### Affiliate Links
+
+Use the `useAffiliateLink` hook in components:
+
+```typescript
+import { useAffiliateLink } from '@/hooks/useAffiliateLink';
+
+const { url, trackClick } = useAffiliateLink('product-id');
+```
+
+## 🔍 SEO Features
+
+- **Automatic sitemap generation** via next-sitemap
+- **Structured data (JSON-LD)** for articles
+- **Open Graph and Twitter Card** meta tags
+- **Canonical URLs** for all pages
+- **Semantic HTML** structure
+- **Image optimization** with Next.js Image component
+
+## 📁 Project Structure
+
+```
+ai-music-blog/
+├── src/
+│   ├── app/                 # Next.js app router
+│   │   ├── [slug]/         # Dynamic post pages
+│   │   ├── globals.css     # Global styles
+│   │   ├── layout.tsx      # Root layout
+│   │   └── page.tsx        # Homepage
+│   ├── components/         # Reusable components
+│   │   ├── Header.tsx
+│   │   ├── PostCard.tsx
+│   │   └── WaveformPlayer.tsx
+│   ├── hooks/              # Custom React hooks
+│   ├── lib/                # Utility functions
+│   │   └── contentful.ts   # Contentful API client
+│   └── types/              # TypeScript type definitions
+├── .github/
+│   └── workflows/          # GitHub Actions
+├── public/                 # Static assets
+├── next-seo.config.ts      # SEO configuration
+├── next-sitemap.config.js  # Sitemap configuration
+├── tailwind.config.ts      # Tailwind CSS configuration
+└── next.config.ts          # Next.js configuration
+```
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch: `git checkout -b feature-name`
+3. Commit changes: `git commit -m 'Add feature'`
+4. Push to branch: `git push origin feature-name`
+5. Submit a pull request
+
+## 📄 License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## 🆘 Support
+
+For support, please open an issue in the GitHub repository or contact the development team.
+
+---
+
+Built with ❤️ using Next.js, Tailwind CSS, and Contentful
