@@ -12,12 +12,29 @@ export function Newsletter() {
     e.preventDefault();
     setIsLoading(true);
 
-    // Simulate API call for now
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    
-    setIsSubmitted(true);
-    setIsLoading(false);
-    setEmail('');
+    try {
+      const response = await fetch('/api/newsletter', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email }),
+      });
+
+      if (response.ok) {
+        setIsSubmitted(true);
+        setEmail('');
+      } else {
+        const errorData = await response.json();
+        console.error('Subscription failed:', errorData.error);
+        // You could show an error message to the user here
+      }
+    } catch (error) {
+      console.error('Subscription error:', error);
+      // You could show an error message to the user here
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (

@@ -60,7 +60,9 @@ export default async function Home() {
         </section>
 
         {/* Newsletter Signup */}
-        <Newsletter />
+        <div id="newsletter">
+          <Newsletter />
+        </div>
 
         {/* Main Content Area */}
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-12 mt-16">

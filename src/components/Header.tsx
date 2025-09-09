@@ -28,24 +28,26 @@ export function Header() {
               href="/"
               className="text-gray-400 hover:text-foreground transition-colors duration-300 font-medium relative group"
             >
-              Home
+              Latest Posts
               <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-accent group-hover:w-full transition-all duration-300"></span>
             </Link>
             <Link
-              href="/about"
+              href="#newsletter"
+              onClick={(e) => {
+                e.preventDefault();
+                document.querySelector('#newsletter')?.scrollIntoView({ behavior: 'smooth' });
+              }}
               className="text-gray-400 hover:text-foreground transition-colors duration-300 font-medium relative group"
             >
-              About
+              Newsletter
               <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-accent group-hover:w-full transition-all duration-300"></span>
             </Link>
-            <Link
-              href="/contact"
-              className="text-gray-400 hover:text-foreground transition-colors duration-300 font-medium relative group"
+            <button 
+              onClick={() => {
+                document.querySelector('#newsletter')?.scrollIntoView({ behavior: 'smooth' });
+              }}
+              className="bg-gradient-to-r from-accent to-accent/90 hover:from-accent/90 hover:to-accent text-white px-6 py-2.5 rounded-full transition-all duration-300 font-semibold shadow-lg hover:shadow-accent/25 hover:scale-105"
             >
-              Contact
-              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-accent group-hover:w-full transition-all duration-300"></span>
-            </Link>
-            <button className="bg-gradient-to-r from-accent to-accent/90 hover:from-accent/90 hover:to-accent text-white px-6 py-2.5 rounded-full transition-all duration-300 font-semibold shadow-lg hover:shadow-accent/25 hover:scale-105">
               Subscribe
             </button>
           </nav>
@@ -95,24 +97,26 @@ export function Header() {
                   onClick={toggleMenu}
                   className="text-gray-400 hover:text-foreground transition-colors duration-300 py-3 font-medium"
                 >
-                  Home
-                </Link>
-                <Link
-                  href="/about"
-                  onClick={toggleMenu}
-                  className="text-gray-400 hover:text-foreground transition-colors duration-300 py-3 font-medium"
-                >
-                  About
-                </Link>
-                <Link
-                  href="/contact"
-                  onClick={toggleMenu}
-                  className="text-gray-400 hover:text-foreground transition-colors duration-300 py-3 font-medium"
-                >
-                  Contact
+                  Latest Posts
                 </Link>
                 <button
-                  onClick={toggleMenu}
+                  onClick={() => {
+                    toggleMenu();
+                    setTimeout(() => {
+                      document.querySelector('#newsletter')?.scrollIntoView({ behavior: 'smooth' });
+                    }, 300);
+                  }}
+                  className="text-gray-400 hover:text-foreground transition-colors duration-300 py-3 font-medium text-left"
+                >
+                  Newsletter
+                </button>
+                <button
+                  onClick={() => {
+                    toggleMenu();
+                    setTimeout(() => {
+                      document.querySelector('#newsletter')?.scrollIntoView({ behavior: 'smooth' });
+                    }, 300);
+                  }}
                   className="bg-gradient-to-r from-accent to-accent/90 hover:from-accent/90 hover:to-accent text-white px-6 py-3 rounded-full transition-all duration-300 font-semibold self-start mt-2"
                 >
                   Subscribe
