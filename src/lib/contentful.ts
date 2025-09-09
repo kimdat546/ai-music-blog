@@ -1,5 +1,6 @@
 import { createClient } from 'contentful';
 import { ContentfulPost, Post } from '@/types/contentful';
+import { calculateReadingTime, extractTextFromRichText } from './readingTime';
 
 if (!process.env.CONTENTFUL_SPACE_ID) {
   throw new Error('CONTENTFUL_SPACE_ID is required');
@@ -15,6 +16,9 @@ const client = createClient({
 });
 
 function parseContentfulPost(post: ContentfulPost): Post {
+  const bodyText = extractTextFromRichText(post.fields.body);
+  const readingTime = calculateReadingTime(bodyText + post.fields.excerpt);
+  
   return {
     id: post.sys.id,
     title: post.fields.title,
@@ -29,6 +33,8 @@ function parseContentfulPost(post: ContentfulPost): Post {
       ? `https:${post.fields.audioPreview.fields.file.url}`
       : undefined,
     tags: post.fields.tags,
+    category: post.fields.category || 'General',
+    readingTime,
     createdAt: post.sys.createdAt,
     updatedAt: post.sys.updatedAt,
   };
@@ -79,6 +85,58 @@ export async function getAllSlugs(): Promise<string[]> {
     return entries.items.map(item => item.fields.slug);
   } catch (error) {
     console.error('Error fetching slugs:', error);
+    return [];
+  }
+}
+
+export async function getPostsByCategory(category: string): Promise<Post[]> {
+  try {
+    const entries = await client.getEntries<ContentfulPost['fields']>({
+      content_type: 'post',
+      'fields.category': category,
+      order: '-sys.createdAt',
+    });
+
+    return entries.items.map(item =>
+      parseContentfulPost(item as ContentfulPost)
+    );
+  } catch (error) {
+    console.error('Error fetching posts by category:', error);
+    return [];
+  }
+}
+
+export async function getAllCategories(): Promise<string[]> {
+  try {
+    const entries = await client.getEntries<ContentfulPost['fields']>({
+      content_type: 'post',
+      select: 'fields.category',
+    });
+
+    const categories = entries.items
+      .map(item => item.fields.category)
+      .filter((category): category is string => Boolean(category));
+    
+    return [...new Set(categories)];
+  } catch (error) {
+    console.error('Error fetching categories:', error);
+    return ['AI Tools', 'Tutorials', 'Industry News', 'Reviews', 'Guides'];
+  }
+}
+
+export async function searchPosts(query: string): Promise<Post[]> {
+  try {
+    const entries = await client.getEntries<ContentfulPost['fields']>({
+      content_type: 'post',
+      query: query,
+      order: '-sys.createdAt',
+    });
+
+    return entries.items.map(item =>
+      parseContentfulPost(item as ContentfulPost)
+    );
+  } catch (error) {
+    console.error('Error searching posts:', error);
     return [];
   }
 }

@@ -36,6 +36,7 @@ export interface ContentfulPost {
       };
     };
     tags?: string[];
+    category?: string;
   };
 }
 
@@ -54,6 +55,8 @@ export interface Post {
   };
   audioPreviewUrl?: string;
   tags?: string[];
+  category?: string;
+  readingTime: number;
   createdAt: string;
   updatedAt: string;
 }
